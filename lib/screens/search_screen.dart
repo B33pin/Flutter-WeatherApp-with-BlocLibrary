@@ -23,18 +23,29 @@ class SearchScreen extends StatelessWidget {
             children: <Widget>[
               Container(
                   padding: EdgeInsets.fromLTRB(20, 130, 20, 50),
-                  child: BlocBuilder<WeatherBloc, WeatherState>(
-                    builder: (BuildContext context, state) {
-                      if (state is WeatherInitial) {
-                        return initaial();
-                      } else if (state is WeatherLoading) {
-                        return Loading();
-                      } else if (state is WeatherLoaded) {
-                        return WeatherWithDAta(state.weather);
-                      } else if (state is WeatherError) {
-                        return initaial();
+                  child: BlocListener<WeatherBloc, WeatherState>(
+                    listener: (BuildContext context, state) {
+                      if(state is WeatherError){
+                        Scaffold.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.message),
+                          ),
+                        );
                       }
                     },
+                    child: BlocBuilder<WeatherBloc, WeatherState>(
+                      builder: (BuildContext context, state) {
+                        if (state is WeatherInitial) {
+                          return initaial();
+                        } else if (state is WeatherLoading) {
+                          return Loading();
+                        } else if (state is WeatherLoaded) {
+                          return WeatherWithDAta(state.weather);
+                        } else if (state is WeatherError) {
+                          return initaial();
+                        }
+                      },
+                    ),
                   )),
             ],
           ),

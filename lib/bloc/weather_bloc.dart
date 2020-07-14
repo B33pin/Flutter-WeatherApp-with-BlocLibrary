@@ -23,7 +23,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       final weather = await weatherRepo.FetchWeather(event.cityname);
       yield WeatherLoaded(weather: weather);
     } on NetworkError {
-        yield WeatherError(message: "Couldn't fetch weather. Is the device online?");
+        yield WeatherError(message: "Couldn't fetch weather. Is the device online? or Your city is invalid2");
       }
     }
   }
